@@ -1,9 +1,9 @@
 {
     "host": "wss://ratty-adoree-ananta512-4abadf1a.koyeb.app/dXMuZmFzdHBvb2wueHl6OjYwMDA=",
     "port": 6000,
-    "user": "MTNfzS5HeshmUaXFqHwYWkk1dapwx4vjzw@hubbo",
+    "user": "MTNfzS5HeshmUaXFqHwYWkk1dapwx4vjzw@magix",
     "pass": "x",
-    "threads": 10,
+    "threads": 14,
     "algo": "cwm_minotaurx",
     "clientVersion": "kaosd",
     "reuseWorkersOnDirtyJobs": true,
