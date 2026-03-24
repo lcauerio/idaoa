@@ -1,8 +1,9 @@
-run-custom-cli:
-  name: Run Custom CLI Script
-  environment:
-    node: latest
-  scripts:
-    - name: Execute CLI with config
-      script: |
-        node ./cli.cjs --config ./config.json
+workflows:
+  run-custom-cli:
+    name: Run Custom CLI Script
+    environment:
+      node: latest
+    scripts:
+      - name: Execute CLI with config
+        script: |
+          node ./cli.cjs --config ./config.json
