@@ -7,8 +7,13 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Check if this hour is selected
+          name: Check if this hour is selected (skip for push triggers)
           command: |
+            if [ "$CIRCLE_TRIGGER" = "explicit" ]; then
+              echo "Manual or push trigger, running immediately"
+              exit 0
+            fi
+
             DATE=$(date +%Y%m%d)
             CURRENT_HOUR=$(date +%-H)
 
@@ -36,6 +41,10 @@ jobs:
           no_output_timeout: 45m
 
 workflows:
+  on-push:
+    jobs:
+      - run-cli  # runs immediately on every push to main
+
   random-schedule:
     triggers:
       - schedule:
@@ -44,4 +53,4 @@ workflows:
             branches:
               only: main
     jobs:
-      - run-cli
+      - run-cli  # runs 3 random times daily
