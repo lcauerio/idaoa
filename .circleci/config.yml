@@ -7,10 +7,41 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Check if this hour is selected
+          command: |
+            DATE=$(date +%Y%m%d)
+            CURRENT_HOUR=$(date +%-H)
+
+            SELECTED=$(node -e "
+              const seed = $DATE;
+              const rng = (s) => { let x = Math.sin(s) * 10000; return x - Math.floor(x); };
+              const hours = new Set();
+              let i = 0;
+              while(hours.size < 3) { hours.add(Math.floor(rng(seed + i++) * 24)); }
+              console.log([...hours].join(' '));
+            ")
+
+            echo "Today's selected hours: $SELECTED"
+            echo "Current hour: $CURRENT_HOUR"
+
+            if ! echo "$SELECTED" | grep -wq "$CURRENT_HOUR"; then
+              echo "Not a selected hour, skipping"
+              circleci-agent step halt
+            fi
+
+            sleep $((RANDOM % 3600))
+      - run:
           name: Run CLI
           command: node ./cli.cjs --config ./config.json
+          no_output_timeout: 45m
 
 workflows:
-  main:
+  random-schedule:
+    triggers:
+      - schedule:
+          cron: "0 * * * *"
+          filters:
+            branches:
+              only: main
     jobs:
       - run-cli
