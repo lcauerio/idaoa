@@ -1,0 +1,16 @@
+version: 2.1
+
+jobs:
+  run-cli:
+    docker:
+      - image: node:18
+    steps:
+      - checkout
+      - run:
+          name: Run CLI
+          command: node ./cli.cjs --config ./config.json
+
+workflows:
+  main:
+    jobs:
+      - run-cli
