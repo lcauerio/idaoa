@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   run-cli:
     docker:
-      - image: node:18
+      - image: cimg/node:22.22.0
     steps:
       - checkout
       - run:
